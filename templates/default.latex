@@ -24,6 +24,9 @@ $endif$
     \usepackage{fontspec}
   \fi
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+$for(fontfamilies)$
+  \newfontfamily{$fontfamilies.name$}[$fontfamilies.options$]{$fontfamilies.font$}
+$endfor$
 $if(euro)$
   \newcommand{\euro}{€}
 $endif$
@@ -54,11 +57,11 @@ $endif$
 $if(geometry)$
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 $endif$
-\usepackage{hyperref}
+\usepackage[unicode=true]{hyperref}
 $if(colorlinks)$
 \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
 $endif$
-\hypersetup{unicode=true,
+\hypersetup{
 $if(title-meta)$
             pdftitle={$title-meta$},
 $endif$
@@ -97,8 +100,7 @@ $if(natbib)$
 \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
 $endif$
 $if(biblatex)$
-\usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
-$if(biblatexoptions)$\ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}$endif$
+\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
 $for(bibliography)$
 \addbibresource{$bibliography$}
 $endfor$
@@ -152,7 +154,7 @@ $endif$
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 $if(numbersections)$
-\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
 $else$
 \setcounter{secnumdepth}{0}
 $endif$
